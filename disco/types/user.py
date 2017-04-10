@@ -12,6 +12,26 @@ DefaultAvatars = Enum(
 
 
 class User(SlottedModel, with_equality('id'), with_hash('id')):
+    """
+    User object.
+
+    Attributes
+    ----------
+    id : snowflake
+        The ID of this user.
+    username : str
+        The name of the user.
+    avatar : str
+        The user\'s avatar hash.
+    discriminator : str
+        The user\'s discriminator (4-digit discord-tag).
+    bot : bool
+        Whether this user is a bot.
+    verified : bool
+        Whether the email on this account has been verified.
+    email : str
+        The user\'s email address.
+    """
     id = Field(snowflake)
     username = Field(text)
     avatar = Field(binary)
@@ -23,6 +43,21 @@ class User(SlottedModel, with_equality('id'), with_hash('id')):
     presence = Field(None)
 
     def get_avatar_url(self, fmt='webp', size=1024):
+        """
+        Returns the URL to the user\'s avatar.
+
+        Args
+        ----
+        fmt : str
+            Imageformat of the avatar.
+        size : int
+            Size of the avatar.
+
+        Returns
+        -------
+        str
+            The URL to the user\'s avatar.
+        """
         if not self.avatar:
             return 'https://cdn.discordapp.com/embed/avatars/{}.png'.format(self.default_avatar.value)
 
@@ -35,14 +70,23 @@ class User(SlottedModel, with_equality('id'), with_hash('id')):
 
     @property
     def default_avatar(self):
+        """
+        Returns the Default avatar url of the user.
+        """
         return DefaultAvatars[int(self.discriminator) % len(DefaultAvatars.attrs)]
 
     @property
     def avatar_url(self):
+        """
+        Returns the avatar url of the user.
+        """
         return self.get_avatar_url()
 
     @property
     def mention(self):
+        """
+        Formated string that mentions the user.
+        """
         return '<@{}>'.format(self.id)
 
     def open_dm(self):
@@ -70,12 +114,39 @@ Status = Enum(
 
 
 class Game(SlottedModel):
+    """
+    Represents the activity of a user.
+
+    Attributes
+    ----------
+    type : `GameType`
+        Whether the user is just playing the game or streaming.
+
+        Possible values are: `DEFAULT` (Playing ...) and `STREAMING` (Streaming ...).
+    name : str
+        Name of the Game.
+    url : str
+        Stream URL. Only validated when `GameType` is `STREAMING`.
+    """
     type = Field(GameType)
     name = Field(text)
     url = Field(text)
 
 
 class Presence(SlottedModel):
+    """
+    Represents the Presence of a user.
+
+    Attributes
+    ----------
+    user : :class:`disco.types.user.User`
+    game : :class:`disco.types.user.Game`
+        The user\'s current activity.
+    status : `Status`
+        The user\'s current status.
+
+        Possible values are: `ONLINE`, `IDLE`, `DND` (Do not Disturb) and `OFFLINE`.
+    """
     user = Field(User, alias='user', ignore_dump=['presence'])
     game = Field(Game)
     status = Field(Status)
