@@ -52,12 +52,38 @@ class MessageReaction(SlottedModel):
 
 
 class MessageEmbedFooter(SlottedModel):
+    """
+    Message embed footer object.
+
+    Attributes
+    ----------
+    text : str
+        Footer text.
+    icon_url : str
+        URL of footer icon.
+    proxy_icon_url : str
+        Proxied URL of the footer icon.
+    """
     text = Field(text)
     icon_url = Field(text)
     proxy_icon_url = Field(text)
 
 
 class MessageEmbedImage(SlottedModel):
+    """
+    Message embed image object.
+
+    Attributes
+    ----------
+    url : str
+        Source URL of image.
+    proxy_url : str
+        Proxied URL of the image.
+    height : int
+        height of image.
+    width : int
+        width of image.
+    """
     url = Field(text)
     proxy_url = Field(text)
     width = Field(int)
@@ -65,6 +91,20 @@ class MessageEmbedImage(SlottedModel):
 
 
 class MessageEmbedThumbnail(SlottedModel):
+    """
+    Message embed thumbnail object.
+
+    Attributes
+    ----------
+    url : str
+        Source URL of thumbnail.
+    proxy_url : str
+        Proxied URL of the thumbnail.
+    height : int
+        height of thumbnail.
+    width : int
+        width of thumbnail.
+    """
     url = Field(text)
     proxy_url = Field(text)
     width = Field(int)
@@ -72,12 +112,38 @@ class MessageEmbedThumbnail(SlottedModel):
 
 
 class MessageEmbedVideo(SlottedModel):
+    """
+    Message embed video object.
+
+    Attributes
+    ----------
+    url : str
+        Source URL of video.
+    height : int
+        height of video.
+    width : int
+        width of video.
+    """
     url = Field(text)
     height = Field(int)
     width = Field(int)
 
 
 class MessageEmbedAuthor(SlottedModel):
+    """
+    Message embed author object.
+
+    Attributes
+    ----------
+    name : str
+        Name of author.
+    url : str
+        URL of author.
+    icon_url : str
+        URL of author icon.
+    icon_proxy_url : str
+        Proxied URL of the author icon.
+    """
     name = Field(text)
     url = Field(text)
     icon_url = Field(text)
@@ -85,6 +151,18 @@ class MessageEmbedAuthor(SlottedModel):
 
 
 class MessageEmbedField(SlottedModel):
+    """
+    Message embed field object.
+
+    Attributes
+    ----------
+    name : str
+        Name of the field.
+    value : str
+        Value of the field.
+    inline : bool
+        Whether or not this field should display inline.
+    """
     name = Field(text)
     value = Field(text)
     inline = Field(bool)
@@ -104,6 +182,20 @@ class MessageEmbed(SlottedModel):
         Description of the embed.
     url : str
         URL of the embed.
+    timestamp : datetime
+        Timestamp of the embed content.
+    color : int
+        Color code of the embed.
+    footer : :class:`MessageEmbedFooter`
+        Footer information.
+    image : :class:`MessageEmbedImage`
+        Image information.
+    thumbnail : :class:`MessageEmbedThumbnail`
+        Thumbnail information.
+    video : :class:`MessageEmbedVideo`
+        Video information.
+    fields : list(:class:`MessageEmbedField`)
+        Fields information.
     """
     title = Field(text)
     type = Field(str, default='rich')
@@ -119,21 +211,39 @@ class MessageEmbed(SlottedModel):
     fields = ListField(MessageEmbedField)
 
     def set_footer(self, *args, **kwargs):
+        """
+        Adds :class:`MessageEmbedFooter` to the embed.
+        """
         self.footer = MessageEmbedFooter(*args, **kwargs)
 
     def set_image(self, *args, **kwargs):
+        """
+        Adds :class:`MessageEmbedImage` to the embed.
+        """
         self.image = MessageEmbedImage(*args, **kwargs)
 
     def set_thumbnail(self, *args, **kwargs):
+        """
+        Adds :class:`MessageEmbedThumbnail` to the embed.
+        """
         self.thumbnail = MessageEmbedThumbnail(*args, **kwargs)
 
     def set_video(self, *args, **kwargs):
+        """
+        Adds :class:`MessageEmbedVideo` to the embed.
+        """
         self.video = MessageEmbedVideo(*args, **kwargs)
 
     def set_author(self, *args, **kwargs):
+        """
+        Adds :class:`MessageEmbedAuthor` to the embed.
+        """
         self.author = MessageEmbedAuthor(*args, **kwargs)
 
     def add_field(self, *args, **kwargs):
+        """
+        Appends :class:`MessageEmbedField` to the embed.
+        """
         self.fields.append(MessageEmbedField(*args, **kwargs))
 
 
