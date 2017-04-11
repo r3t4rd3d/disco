@@ -50,9 +50,9 @@ Represents the Presence of a user.
 
 Name | Type | Description
 ---- | ---- | -----------
-`user` | [User](USER.md) | 
-`game` | [Game](USER.md) | The user's current activity
-`status` | `Status`(enum) | The user's current status
+`user` | [User](USER.md#user-1) | 
+`game` | [Game](USER.md#game) | The user's current activity
+`status` | [Status](USER.md#status)(enum) | The user's current status
 
 ## Game
 
@@ -62,7 +62,7 @@ Represents the activity of a user.
 
 Name | Type | Description
 ---- | ---- | -----------
-`type` | `GameType`(enum) | Whether the user is just playing the game or streaming it.
+`type` | [GameType](USER.md#gametype)(enum) | Whether the user is just playing the game or streaming it.
 `name` | `str` | Name of the game
 `url` | `str` | Stream URL. Only validated when `GameType` is `STREAMING`.
 
