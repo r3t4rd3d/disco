@@ -64,7 +64,7 @@ Name | Type | Description
 ---- | ---- | -----------
 `type` | `GameType`(enum) | Whether the user is just playing the game or streaming it.
 `name` | `str` | Name of the game
-`url` | Stream URL. Only validated when `GameType` is `STREAMING`.
+`url` | `str` | Stream URL. Only validated when `GameType` is `STREAMING`.
 
 ## Enums
 
